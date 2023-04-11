@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS grass_roots;
+CREATE DATABASE grass_roots;

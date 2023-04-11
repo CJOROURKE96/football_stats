@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "setup-db": "psql-f ./setup.sql",
+    "seed": "PGDATABASE = grass_roots node ./seed/run-seed.js"
+  },
+  "dependencies": {
+    "pg": "^8.10.0",
+    "pg-format": "^1.0.4"
+  }
+}
