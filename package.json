@@ -4,6 +4,7 @@
     "seed": "PGDATABASE = grass_roots node ./seed/run-seed.js"
   },
   "dependencies": {
+    "jest": "^29.5.0",
     "pg": "^8.10.0",
     "pg-format": "^1.0.4"
   }
