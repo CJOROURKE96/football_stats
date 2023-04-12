@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "setup-db": "psql-f ./setup.sql",
+    "setup-db": "psql -f ./db/setup.sql",
     "seed": "node ./db/seed/run-seed.js"
   },
   "dependencies": {

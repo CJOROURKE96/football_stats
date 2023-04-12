@@ -1,6 +1,6 @@
 const db = require('../connection');
 const format = require('pg-format');
-const { data } = require('../data/test_db/index');
+const {teamData} = require('../data/dev_data/index')
 
 const seed = () => {
   return db
@@ -23,7 +23,7 @@ function createTeams() {
 }
 
 function insertTeams() {
-  const teamsArray = data.map((team) => {
+  const teamsArray = teamData.map((team) => {
     return [team.team_name, team.location, team.logo];
   });
   const formattedTeam = format(
