@@ -6,7 +6,7 @@ const seed = () => {
   return db
     .query(`DROP TABLE IF EXISTS players;
             DROP TABLE IF EXISTS teams;
-            DROP TABLE IF EXISTS player_stats;
+            DROP TABLE IF EXISTS stats;
             DROP TABLE IF EXISTS leagues`)
     .then(() => {
       return createTeams();
@@ -39,7 +39,8 @@ function createTeams() {
         team_id SERIAL PRIMARY KEY,
         team_name VARCHAR(100) NOT NULL,
         location VARCHAR(250) NOT NULL,
-        logo_url VARCHAR(250) NOT NULL
+        logo_url VARCHAR(250) NOT NULL,
+        league_id INT NOT NULL
     )`);
 }
 function createPlayers() {
@@ -52,7 +53,7 @@ function createPlayers() {
       )`);
   }
 function createPlayerStats() {
-    return db.query(`CREATE TABLE player_stats (
+    return db.query(`CREATE TABLE stats (
            goals INT DEFAULT 0,
            assists INT DEFAULT 0,
            clean_sheets INT DEFAULT 0,
@@ -70,11 +71,11 @@ function createLeague() {
 
 function insertTeams() {
   const teamsArray = teamData.map((team) => {
-    return [team.team_name, team.location, team.logo_url];
+    return [team.team_name, team.location, team.logo_url, team.league_id];
   });
   const formattedTeam = format(
     `INSERT INTO teams (
-      team_name, location, logo_url)
+      team_name, location, logo_url, league_id)
       VALUES
       %L RETURNING *;`,
     teamsArray
@@ -103,7 +104,7 @@ function insertTeams() {
             return [player_stats.goals, player_stats.assists, player_stats.clean_sheets, player_stats.num_starts, player_stats.player_id];
         });
         const formattedPlayerStats = format(
-            `INSERT INTO player_stats (
+            `INSERT INTO stats (
                 goals, assists, clean_sheets, num_starts, player_id)
                 VALUES
                 %L RETURNING *;`,
