@@ -1,5 +1,5 @@
 const request = require('supertest');
-const seed = require('../db/seed/seed');
+const {seed} = require('../db/seed/seed');
 const app = require('../db/app');
 const db = require('../db/connection')
 const data = require('../db/data/test_db');
@@ -85,4 +85,25 @@ describe('app', () => {
       })
     })
 })
+
+describe('app', () => {
+    describe('POST/api/teams', () => {
+        test('posts a new team with status code 201 when successfull', () => {
+            const testNewTeam = {
+                team_name: 'Preston Warriors',
+                location: 'Preston',
+                logo_url: 'https://cdn.worldvectorlogo.com/logos/golden-state-warriors-3.svg',
+                league_id: 1,
+            };
+            return request(app)
+              .post('/api/teams')
+              .send(testNewTeam)
+              .expect(201)
+              .then(({body}) => {
+                expect(body.team.team_name).toEqual('Preston Warriors')
+              })
+        })
+    })
+})
+
 })

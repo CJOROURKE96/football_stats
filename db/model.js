@@ -23,3 +23,13 @@ exports.fetchLeagues = () => {
         return leagues.rows;
     })
 }
+
+exports.insertTeam = (data) => {
+    const dataArray = [data.team_name, data.location, data.logo_url, data.league_id]
+    return db.query(`INSERT INTO teams (
+        team_name, location, logo_url, league_id) VALUES ($1, $2, $3, $4) RETURNING *;
+    `, dataArray)
+    .then(({rows}) => {
+        return rows[0]
+    })
+}

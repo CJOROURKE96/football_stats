@@ -4,10 +4,16 @@ const {teamData, playerData, playerStatsData, leaguesData} = require('../data/de
 
 const seed = () => {
   return db
-    .query(`DROP TABLE IF EXISTS players;
-            DROP TABLE IF EXISTS teams;
-            DROP TABLE IF EXISTS stats;
-            DROP TABLE IF EXISTS leagues`)
+    .query(`DROP TABLE IF EXISTS teams;`)
+    .then(() => {
+        return db.query(`DROP TABLE IF EXISTS players;`)
+    })
+    .then(() => {
+        return db.query(`DROP TABLE IF EXISTS stats;`)
+    })
+    .then(() => {
+        return db.query(`DROP TABLE IF EXISTS leagues;`)
+    })
     .then(() => {
       return createTeams();
     })

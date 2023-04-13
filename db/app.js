@@ -1,6 +1,6 @@
 const express = require('express');
 
-const {getTeams, getPlayers, getStats, getLeagues} = require('./controller')
+const {getTeams, getPlayers, getStats, getLeagues, postNewTeam} = require('./controller')
 
 const app = express();
 
@@ -10,6 +10,7 @@ app.get('/api/teams', getTeams);
 app.get('/api/players', getPlayers);
 app.get('/api/stats', getStats);
 app.get('/api/leagues', getLeagues);
+app.post('/api/teams/', postNewTeam);
 
 app.use((err, request, response, next) => {
     if (err.status) {
