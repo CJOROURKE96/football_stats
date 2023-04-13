@@ -18,17 +18,17 @@ function createTeams() {
         team_id SERIAL PRIMARY KEY,
         team_name VARCHAR(100) NOT NULL,
         location VARCHAR(250) NOT NULL,
-        logo VARCHAR(250) NOT NULL
+        logo_url VARCHAR(250) NOT NULL
     )`);
 }
 
 function insertTeams() {
   const teamsArray = teamData.map((team) => {
-    return [team.team_name, team.location, team.logo];
+    return [team.team_name, team.location, team.logo_url];
   });
   const formattedTeam = format(
     `INSERT INTO teams (
-      team_name, location, logo)
+      team_name, location, logo_url)
       VALUES
       %L RETURNING *;`,
     teamsArray

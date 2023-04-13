@@ -1,11 +1,3 @@
-// const { Pool } = require("pg");
-
-// const connection = new Pool({database: process.env.PGDATABASE});
-
-// module.exports = connection
-
-
-
 const { Pool } = require('pg');
 const ENV = process.env.NODE_ENV || 'development';
 
@@ -17,4 +9,10 @@ if (!process.env.PGDATABASE) {
   throw new Error('PGDATABASE not set');
 }
 
-module.exports = new Pool();
+module.exports = new Pool({
+    user: 'lee',
+    host: 'localhost',
+    database: 'grass_roots',
+    password: 'password',
+    port: 5432,
+  });
