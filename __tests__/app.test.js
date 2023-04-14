@@ -1,12 +1,14 @@
 const request = require('supertest');
-const {seed} = require('../db/seed/seed');
+const seed = require('../db/seed/seed');
 const app = require('../db/app');
 const db = require('../db/connection')
-const data = require('../db/data/test_db');
-const { beforeEach } = require('node:test');
+const teamData = require('../db/data/test_db/teams');
+const playerData = require('../db/data/test_db/players');
+const playerStatsData = require('../db/data/test_db/stats');
+const leaguesData = require('../db/data/test_db/leagues');
 
 beforeEach(() => {
-    return seed(data);
+    return seed({teamData, playerData, playerStatsData, leaguesData});
 });
 
 afterAll(() => {
@@ -30,7 +32,7 @@ describe('app', () => {
          })
       })
     })
-
+})
 describe('app', () => {
     describe('GET/api/players', () => {
       test('returns an array of player objects with status code 200', () => {
@@ -106,4 +108,3 @@ describe('app', () => {
     })
 })
 
-})
