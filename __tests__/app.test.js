@@ -16,6 +16,23 @@ afterAll(() => {
 });
 
 describe('app', () => {
+  describe('GET/api/leagues', () => {
+    test('returns an array of leagues objects with status code 200', () => {
+      return request(app)
+       .get('/api/leagues')
+       .expect(200)
+       .then(({body}) => {
+          expect(body.length).toBe(1);
+          body.forEach((league) => {
+              expect(league).toHaveProperty('league_name', expect.any(String))
+              expect(league).toHaveProperty('location', expect.any(String))
+          })
+       })
+    })
+  })
+})
+
+describe('app', () => {
     describe('GET/api/teams', () => {
       test('returns an array of team objects with status code 200', () => {
         return request(app)
@@ -65,23 +82,6 @@ describe('app', () => {
                 expect(player).toHaveProperty('clean_sheets', expect.any(Number))
                 expect(player).toHaveProperty('num_starts', expect.any(Number))
                 expect(player).toHaveProperty('player_id', expect.any(Number))
-            })
-         })
-      })
-    })
-})
-
-describe('app', () => {
-    describe('GET/api/leagues', () => {
-      test('returns an array of leagues objects with status code 200', () => {
-        return request(app)
-         .get('/api/leagues')
-         .expect(200)
-         .then(({body}) => {
-            expect(body.length).toBe(1);
-            body.forEach((league) => {
-                expect(league).toHaveProperty('league_name', expect.any(String))
-                expect(league).toHaveProperty('location', expect.any(String))
             })
          })
       })

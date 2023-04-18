@@ -15,18 +15,18 @@ module.exports = [
         player_name: 'Dariius Gage',
         position: 'RB',
         age: 22,
-        team_id: 2
+        team_id: 1
     },
     {
         player_name: 'Kyler Rearden',
         position: 'CM',
         age: 23,
-        team_id: 2
+        team_id: 1
     },
     {
         player_name: 'Jarvis Kaolin',
         position: 'ST',
         age: 24,
-        team_id: 2
+        team_id: 1
     }
 ]
