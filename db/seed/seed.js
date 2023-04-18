@@ -14,12 +14,19 @@ const seed = ({teamData, playerData, playerStatsData, leaguesData}) => {
         return db.query(`DROP TABLE IF EXISTS leagues CASCADE;`)
     })
     .then(() => {
+        return db.query(`CREATE TABLE leagues (
+                   league_id SERIAL PRIMARY KEY,
+                   league_name VARCHAR(200) NOT NULL,
+                   location VARCHAR(250) NOT NULL
+            );`);
+    })  
+    .then(() => {
         return db.query(`CREATE TABLE teams (
                 team_id SERIAL PRIMARY KEY,
                 team_name VARCHAR(100) NOT NULL,
                 location VARCHAR(250) NOT NULL,
                 logo_url VARCHAR(250) NOT NULL,
-                league_id INT NOT NULL
+                league_id INT NOT NULL REFERENCES leagues(league_id)
             );`);           
     })
     .then(() => {
@@ -28,7 +35,7 @@ const seed = ({teamData, playerData, playerStatsData, leaguesData}) => {
                 player_name VARCHAR(100) NOT NULL,
                 position VARCHAR(250) NOT NULL,
                 age INT DEFAULT 0 NOT NULL,
-                team_id INT NOT NULL
+                team_id INT NOT NULL REFERENCES teams(team_id)
                );`);
     })
     .then(() => {
@@ -37,30 +44,32 @@ const seed = ({teamData, playerData, playerStatsData, leaguesData}) => {
                 assists INT DEFAULT 0,
                 clean_sheets INT DEFAULT 0,
                 num_starts INT DEFAULT 0,
-                player_id INT NOT NULL
+                player_id INT NOT NULL 
            );`);
-    })
-    .then(() => {
-        return db.query(`CREATE TABLE leagues (
-                   league_id SERIAL PRIMARY KEY,
-                   league_name VARCHAR(200) NOT NULL,
-                   location VARCHAR(250) NOT NULL
-            );`);
-    })     
+    })   
     .then(() => {   
-          const formattedTeam = format(
-            `INSERT INTO teams (
-              team_name, location, logo_url, league_id)
-              VALUES
-              %L;`,
-            teamData.map(({team_name, location, logo_url, league_id}) => {
-                return [team_name, location, logo_url, league_id]
+        const formattedLeagues = format(
+            `INSERT INTO leagues (
+                league_name, location)
+                VALUES
+                %L RETURNING *;`,
+                leaguesData.map(({league_name, location}) => [league_name, location])
+        );
+        return db.query(formattedLeagues)
             })
-          );
-          const formattedTeamsPromise = db.query(formattedTeam).then((insertedTeams) => {
-            return insertedTeams.rows;
-          });
-    
+    .then(() => {
+
+        const formattedTeam = format(
+          `INSERT INTO teams (
+            team_name, location, logo_url, league_id)
+            VALUES
+            %L;`,
+          teamData.map(({team_name, location, logo_url, league_id}) => [team_name, location, logo_url, league_id])
+        );
+        return db.query(formattedTeam)
+    })
+
+    .then(() => { 
           const formattedPlayer = format(
               `INSERT INTO players (
                   player_name, position, age, team_id)
@@ -86,22 +95,8 @@ const seed = ({teamData, playerData, playerStatsData, leaguesData}) => {
             const formattedPlayerStatsPromise = db.query(formattedPlayerStats).then((insertedPlayerStats) => {
                 return insertedPlayerStats.rows;
             });
-
-            const formattedLeagues = format(
-                `INSERT INTO leagues (
-                    league_name, location)
-                    VALUES
-                    %L RETURNING *;`,
-                    leaguesData.map(({league_name, location}) => {
-                        return [league_name, location];
-                    })
-            );
-            const formattedLeaguesPromise = db.query(formattedLeagues).then((insertedLeagues) => {
-                return insertedLeagues.rows;
-            });
-            return Promise.all([formattedTeamsPromise, formattedPlayersPromise, formattedPlayerStatsPromise, formattedLeaguesPromise])
+            return Promise.all([formattedPlayersPromise, formattedPlayerStatsPromise])
         })
-     
     }
   
 module.exports = seed;
