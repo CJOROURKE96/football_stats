@@ -9,9 +9,6 @@ const leaguesData = require("../db/data/test_db/leagues");
 const fixturesData = require("../db/data/test_db/fixtures");
 
 beforeEach(() => {
-  return seed({ teamData, playerData, playerStatsData, leaguesData });
-
-beforeEach(() => {
   return seed({
     teamData,
     playerData,
@@ -19,7 +16,7 @@ beforeEach(() => {
     leaguesData,
     fixturesData,
   });
-
+});
 
 afterAll(() => {
   db.end();
@@ -98,23 +95,21 @@ describe("app", () => {
   });
 });
 
-  describe("GET/api/fixtures", () => {
-    test("returns an array of all the fixtures with status code 200", () => {
-      return request(app)
-        .get("/api/fixtures")
-        .expect(200)
-        .then(({ body }) => {
-          expect(body.length).toBe(7);
-          body.forEach((fixture) => {
-            expect(fixture).toHaveProperty("home_team_id", expect.any(Number));
-            expect(fixture).toHaveProperty("away_team_id", expect.any(Number));
-            expect(fixture).toHaveProperty("fixture_date", expect.any(String));
-            expect(fixture).toHaveProperty("fixture_time", expect.any(String));
-            expect(fixture).toHaveProperty("result", expect.any(String));
-          });
-
+describe("GET/api/fixtures", () => {
+  test("returns an array of all the fixtures with status code 200", () => {
+    return request(app)
+      .get("/api/fixtures")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.length).toBe(7);
+        body.forEach((fixture) => {
+          expect(fixture).toHaveProperty("home_team_id", expect.any(Number));
+          expect(fixture).toHaveProperty("away_team_id", expect.any(Number));
+          expect(fixture).toHaveProperty("fixture_date", expect.any(String));
+          expect(fixture).toHaveProperty("fixture_time", expect.any(String));
+          expect(fixture).toHaveProperty("result", expect.any(String));
         });
-    });
+      });
   });
 });
 
@@ -136,6 +131,10 @@ describe("app", () => {
           expect(body.team.team_name).toEqual("Preston Warriors");
           expect(body.team.location).toEqual("Preston");
           expect(body.team.league_id).toEqual(1);
+        });
+    });
+  });
+});
 
 describe("app", () => {
   describe("POST/api/players", () => {
@@ -154,4 +153,7 @@ describe("app", () => {
           expect(body.player.player_name).toEqual("Connor O'Rourke");
           expect(body.player.age).toEqual(27);
           expect(body.player.position).toEqual("ST");
-          
+        });
+    });
+  });
+});

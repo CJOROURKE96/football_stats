@@ -5,8 +5,6 @@ const {
   getPlayers,
   getStats,
   getLeagues,
-  postNewTeam,
-  postNewPlayer,
   getFixtures,
   postNewTeam,
   postNewPlayer,
