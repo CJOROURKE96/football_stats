@@ -5,6 +5,8 @@ const {
   fetchLeagues,
   fetchFixtures,
   insertTeam,
+  insertPlayer,
+
 } = require("./model");
 
 exports.getTeams = (request, response, next) => {
@@ -54,3 +56,12 @@ exports.postNewTeam = (request, response, next) => {
     })
     .catch(next);
 };
+
+exports.postNewPlayer = (request, response, next) => {
+  insertPlayer(request.body)
+    .then((newPlayer) => {
+      response.status(201).send({ player: newPlayer });
+    })
+    .catch(next);
+};
+

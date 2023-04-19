@@ -48,3 +48,18 @@ exports.insertTeam = (data) => {
       return rows[0];
     });
 };
+
+exports.insertPlayer = (data) => {
+  const dataArray = [data.player_name, data.position, data.age, data.team_id];
+  return db
+    .query(
+      `INSERT INTO players (
+        player_name, position, age, team_id) VALUES ($1, $2, $3, $4) RETURNING *;
+    `,
+      dataArray
+    )
+    .then(({ rows }) => {
+      return rows[0];
+    });
+};
+

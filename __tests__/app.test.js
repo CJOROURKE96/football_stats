@@ -9,6 +9,9 @@ const leaguesData = require("../db/data/test_db/leagues");
 const fixturesData = require("../db/data/test_db/fixtures");
 
 beforeEach(() => {
+  return seed({ teamData, playerData, playerStatsData, leaguesData });
+
+beforeEach(() => {
   return seed({
     teamData,
     playerData,
@@ -16,7 +19,7 @@ beforeEach(() => {
     leaguesData,
     fixturesData,
   });
-});
+
 
 afterAll(() => {
   db.end();
@@ -95,7 +98,6 @@ describe("app", () => {
   });
 });
 
-describe("app", () => {
   describe("GET/api/fixtures", () => {
     test("returns an array of all the fixtures with status code 200", () => {
       return request(app)
@@ -110,6 +112,7 @@ describe("app", () => {
             expect(fixture).toHaveProperty("fixture_time", expect.any(String));
             expect(fixture).toHaveProperty("result", expect.any(String));
           });
+
         });
     });
   });
@@ -131,7 +134,24 @@ describe("app", () => {
         .expect(201)
         .then(({ body }) => {
           expect(body.team.team_name).toEqual("Preston Warriors");
-        });
-    });
-  });
-});
+          expect(body.team.location).toEqual("Preston");
+          expect(body.team.league_id).toEqual(1);
+
+describe("app", () => {
+  describe("POST/api/players", () => {
+    test("posts a new player with status code 201 when successfull", () => {
+      const testNewPlayer = {
+        player_name: "Connor O'Rourke",
+        position: "ST",
+        age: 27,
+        team_id: 3,
+      };
+      return request(app)
+        .post("/api/players")
+        .send(testNewPlayer)
+        .expect(201)
+        .then(({ body }) => {
+          expect(body.player.player_name).toEqual("Connor O'Rourke");
+          expect(body.player.age).toEqual(27);
+          expect(body.player.position).toEqual("ST");
+          
