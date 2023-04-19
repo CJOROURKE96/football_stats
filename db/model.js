@@ -12,12 +12,6 @@ exports.fetchPlayers = () => {
   });
 };
 
-exports.fetchStats = () => {
-  return db.query("SELECT * FROM stats").then((stats) => {
-    return stats.rows;
-  });
-};
-
 exports.fetchLeagues = () => {
   return db.query("SELECT * FROM leagues").then((leagues) => {
     return leagues.rows;
@@ -50,11 +44,20 @@ exports.insertTeam = (data) => {
 };
 
 exports.insertPlayer = (data) => {
-  const dataArray = [data.player_name, data.position, data.age, data.team_id];
+  const dataArray = [
+    data.player_name,
+    data.position,
+    data.age,
+    data.team_id,
+    data.goals,
+    data.assists,
+    data.clean_sheets,
+    data.num_starts,
+  ];
   return db
     .query(
       `INSERT INTO players (
-        player_name, position, age, team_id) VALUES ($1, $2, $3, $4) RETURNING *;
+        player_name, position, age, team_id, goals, assists, clean_sheets, num_starts) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;
     `,
       dataArray
     )
@@ -62,4 +65,3 @@ exports.insertPlayer = (data) => {
       return rows[0];
     });
 };
-

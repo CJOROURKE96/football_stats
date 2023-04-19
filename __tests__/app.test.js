@@ -4,7 +4,6 @@ const app = require("../db/app");
 const db = require("../db/connection");
 const teamData = require("../db/data/test_db/teams");
 const playerData = require("../db/data/test_db/players");
-const playerStatsData = require("../db/data/test_db/stats");
 const leaguesData = require("../db/data/test_db/leagues");
 const fixturesData = require("../db/data/test_db/fixtures");
 
@@ -12,7 +11,6 @@ beforeEach(() => {
   return seed({
     teamData,
     playerData,
-    playerStatsData,
     leaguesData,
     fixturesData,
   });
@@ -69,26 +67,11 @@ describe("app", () => {
             expect(player).toHaveProperty("player_name", expect.any(String));
             expect(player).toHaveProperty("position", expect.any(String));
             expect(player).toHaveProperty("age", expect.any(Number));
-          });
-        });
-    });
-  });
-});
-
-describe("app", () => {
-  describe("GET/api/playerStats", () => {
-    test("returns an array of player stats objects with status code 200", () => {
-      return request(app)
-        .get("/api/stats")
-        .expect(200)
-        .then(({ body }) => {
-          expect(body.length).toBe(5);
-          body.forEach((player) => {
+            expect(player).toHaveProperty("team_id", expect.any(Number));
             expect(player).toHaveProperty("goals", expect.any(Number));
             expect(player).toHaveProperty("assists", expect.any(Number));
             expect(player).toHaveProperty("clean_sheets", expect.any(Number));
             expect(player).toHaveProperty("num_starts", expect.any(Number));
-            expect(player).toHaveProperty("player_id", expect.any(Number));
           });
         });
     });
@@ -144,6 +127,10 @@ describe("app", () => {
         position: "ST",
         age: 27,
         team_id: 3,
+        goals: 35,
+        assists: 15,
+        clean_sheets: 1,
+        num_starts: 40,
       };
       return request(app)
         .post("/api/players")
@@ -153,6 +140,11 @@ describe("app", () => {
           expect(body.player.player_name).toEqual("Connor O'Rourke");
           expect(body.player.age).toEqual(27);
           expect(body.player.position).toEqual("ST");
+          expect(body.player.team_id).toEqual(3);
+          expect(body.player.goals).toEqual(35);
+          expect(body.player.assists).toEqual(15);
+          expect(body.player.clean_sheets).toEqual(1);
+          expect(body.player.num_starts).toEqual(40);
         });
     });
   });

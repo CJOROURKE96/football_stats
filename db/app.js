@@ -3,7 +3,6 @@ const express = require("express");
 const {
   getTeams,
   getPlayers,
-  getStats,
   getLeagues,
   getFixtures,
   postNewTeam,
@@ -16,11 +15,12 @@ app.use(express.json());
 
 app.get("/api/teams", getTeams);
 app.get("/api/players", getPlayers);
-app.get("/api/stats", getStats);
 app.get("/api/leagues", getLeagues);
 app.get("/api/fixtures", getFixtures);
 app.post("/api/teams/", postNewTeam);
 app.post("/api/players", postNewPlayer);
+// app.post("/api/leagues", postNewLeague);
+// app.post("/api/fixtures", postNewFixture);
 
 app.use((err, request, response, next) => {
   if (err.status) {

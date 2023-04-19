@@ -1,32 +1,52 @@
 module.exports = [
-    {
-        player_name: 'Brycen Baxter',
-        position: 'GK',
-        age: 20,
-        team_id: 1,
-    },
-    {
-        player_name: 'Charlie Floyd',
-        position: 'CB',
-        age: 21,
-        team_id: 1
-    },
-    {
-        player_name: 'Dariius Gage',
-        position: 'RB',
-        age: 22,
-        team_id: 1
-    },
-    {
-        player_name: 'Kyler Rearden',
-        position: 'CM',
-        age: 23,
-        team_id: 1
-    },
-    {
-        player_name: 'Jarvis Kaolin',
-        position: 'ST',
-        age: 24,
-        team_id: 1
-    }
-]
+  {
+    player_name: "Brycen Baxter",
+    position: "GK",
+    age: 20,
+    team_id: 1,
+    goals: 0,
+    assists: 0,
+    clean_sheets: 3,
+    num_starts: 6,
+  },
+  {
+    player_name: "Charlie Floyd",
+    position: "CB",
+    age: 21,
+    team_id: 1,
+    goals: 1,
+    assists: 1,
+    clean_sheets: 0,
+    num_starts: 6,
+  },
+  {
+    player_name: "Dariius Gage",
+    position: "RB",
+    age: 22,
+    team_id: 1,
+    goals: 0,
+    assists: 4,
+    clean_sheets: 0,
+    num_starts: 8,
+  },
+  {
+    player_name: "Kyler Rearden",
+    position: "CM",
+    age: 23,
+    team_id: 1,
+    goals: 3,
+    assists: 4,
+    clean_sheets: 0,
+    num_starts: 9,
+  },
+  {
+    player_name: "Jarvis Kaolin",
+    position: "ST",
+    age: 24,
+    team_id: 1,
+    goals: 15,
+    assists: 1,
+    clean_sheets: 0,
+    num_starts: 10,
+  },
+];

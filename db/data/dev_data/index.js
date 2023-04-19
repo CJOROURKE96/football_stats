@@ -1,12 +1,10 @@
-const teamData = require('./teams.js')
-const playerData = require('./players.js');
-const leaguesData = require('./leagues.js');
-const playerStatsData = require('./stats.js');
-const fixturesData = require('./fixtures.js')
+const teamData = require("./teams.js");
+const playerData = require("./players.js");
+const leaguesData = require("./leagues.js");
+const fixturesData = require("./fixtures.js");
 module.exports = {
-    teamData,
-    playerData,
-    leaguesData,
-    playerStatsData,
-    fixturesData,
-}
+  teamData,
+  playerData,
+  leaguesData,
+  fixturesData,
+};

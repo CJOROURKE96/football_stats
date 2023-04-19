@@ -1,20 +1,11 @@
 const db = require("../connection");
 const format = require("pg-format");
 
-const seed = ({
-  teamData,
-  playerData,
-  playerStatsData,
-  leaguesData,
-  fixturesData,
-}) => {
+const seed = ({ teamData, playerData, leaguesData, fixturesData }) => {
   return db
     .query(`DROP TABLE IF EXISTS teams CASCADE;`)
     .then(() => {
       return db.query(`DROP TABLE IF EXISTS players CASCADE;`);
-    })
-    .then(() => {
-      return db.query(`DROP TABLE IF EXISTS stats CASCADE;`);
     })
     .then(() => {
       return db.query(`DROP TABLE IF EXISTS leagues CASCADE;`);
@@ -44,17 +35,12 @@ const seed = ({
                 player_name VARCHAR(100) NOT NULL,
                 position VARCHAR(250) NOT NULL,
                 age INT DEFAULT 0 NOT NULL,
-                team_id INT NOT NULL REFERENCES teams(team_id)
-               );`);
-    })
-    .then(() => {
-      return db.query(`CREATE TABLE stats (
+                team_id INT NOT NULL REFERENCES teams(team_id),
                 goals INT DEFAULT 0,
                 assists INT DEFAULT 0,
                 clean_sheets INT DEFAULT 0,
-                num_starts INT DEFAULT 0,
-                player_id INT NOT NULL 
-           );`);
+                num_starts INT DEFAULT 0
+               );`);
     })
     .then(() => {
       return db.query(`CREATE TABLE fixtures (
@@ -96,40 +82,34 @@ const seed = ({
     .then(() => {
       const formattedPlayer = format(
         `INSERT INTO players (
-                  player_name, position, age, team_id)
+                  player_name, position, age, team_id, goals, assists, clean_sheets, num_starts)
                   VALUES
-                  %L;`,
-        playerData.map(({ player_name, position, age, team_id }) => {
-          return [player_name, position, age, team_id];
-        })
-      );
-      const formattedPlayersPromise = db
-        .query(formattedPlayer)
-        .then((insertedPlayers) => {
-          return insertedPlayers.rows;
-        });
-
-      const formattedPlayerStats = format(
-        `INSERT INTO stats (
-                    goals, assists, clean_sheets, num_starts, player_id)
-                    VALUES
-                    %L RETURNING *;`,
-        playerStatsData.map(
-          ({ goals, assists, clean_sheets, num_starts, player_id }) => {
-            return [goals, assists, clean_sheets, num_starts, player_id];
-          }
+                  %L RETURNING *;`,
+        playerData.map(
+          ({
+            player_name,
+            position,
+            age,
+            team_id,
+            goals,
+            assists,
+            clean_sheets,
+            num_starts,
+          }) => [
+            player_name,
+            position,
+            age,
+            team_id,
+            goals,
+            assists,
+            clean_sheets,
+            num_starts,
+          ]
         )
       );
-      const formattedPlayerStatsPromise = db
-        .query(formattedPlayerStats)
-        .then((insertedPlayerStats) => {
-          return insertedPlayerStats.rows;
-        });
-      return Promise.all([
-        formattedPlayersPromise,
-        formattedPlayerStatsPromise,
-      ]);
+      return db.query(formattedPlayer);
     })
+
     .then(() => {
       const formattedFixtures = format(
         `INSERT INTO fixtures (
