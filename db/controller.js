@@ -3,8 +3,10 @@ const {
   fetchPlayers,
   fetchStats,
   fetchLeagues,
+  fetchFixtures,
   insertTeam,
   insertPlayer,
+
 } = require("./model");
 
 exports.getTeams = (request, response, next) => {
@@ -39,6 +41,14 @@ exports.getLeagues = (request, response, next) => {
     .catch(next);
 };
 
+exports.getFixtures = (request, response, next) => {
+  fetchFixtures()
+    .then((fixtures) => {
+      response.status(200).send(fixtures);
+    })
+    .catch(next);
+};
+
 exports.postNewTeam = (request, response, next) => {
   insertTeam(request.body)
     .then((newTeam) => {
@@ -54,3 +64,4 @@ exports.postNewPlayer = (request, response, next) => {
     })
     .catch(next);
 };
+

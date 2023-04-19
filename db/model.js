@@ -24,6 +24,12 @@ exports.fetchLeagues = () => {
   });
 };
 
+exports.fetchFixtures = () => {
+  return db.query("SELECT * FROM fixtures").then((fixtures) => {
+    return fixtures.rows;
+  });
+};
+
 exports.insertTeam = (data) => {
   const dataArray = [
     data.team_name,
@@ -56,3 +62,4 @@ exports.insertPlayer = (data) => {
       return rows[0];
     });
 };
+
