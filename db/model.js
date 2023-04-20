@@ -65,3 +65,37 @@ exports.insertPlayer = (data) => {
       return rows[0];
     });
 };
+
+exports.insertLeague = (data) => {
+  const dataArray = [data.league_name, data.location];
+  return db
+    .query(
+      `INSERT INTO leagues (
+          league_name, location) VALUES ($1, $2) RETURNING *;
+      `,
+      dataArray
+    )
+    .then(({ rows }) => {
+      return rows[0];
+    });
+};
+
+exports.insertFixture = (data) => {
+  const dataArray = [
+    data.home_team_id,
+    data.away_team_id,
+    data.fixture_date,
+    data.fixture_time,
+    data.result,
+  ];
+  return db
+    .query(
+      `INSERT INTO fixtures (
+            home_team_id, away_team_id, fixture_date, fixture_time, result) VALUES ($1, $2, $3, $4, $5) RETURNING *;
+        `,
+      dataArray
+    )
+    .then(({ rows }) => {
+      return rows[0];
+    });
+};

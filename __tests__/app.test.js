@@ -98,7 +98,7 @@ describe("GET/api/fixtures", () => {
 
 describe("app", () => {
   describe("POST/api/teams", () => {
-    test("posts a new team with status code 201 when successfull", () => {
+    test("posts a new team with status code 201 when successful", () => {
       const testNewTeam = {
         team_name: "Preston Warriors",
         location: "Preston",
@@ -121,7 +121,7 @@ describe("app", () => {
 
 describe("app", () => {
   describe("POST/api/players", () => {
-    test("posts a new player with status code 201 when successfull", () => {
+    test("posts a new player with status code 201 when successful", () => {
       const testNewPlayer = {
         player_name: "Connor O'Rourke",
         position: "ST",
@@ -145,6 +145,50 @@ describe("app", () => {
           expect(body.player.assists).toEqual(15);
           expect(body.player.clean_sheets).toEqual(1);
           expect(body.player.num_starts).toEqual(40);
+        });
+    });
+  });
+});
+
+describe("app", () => {
+  describe("POST/api/leagues", () => {
+    test("posts a new league with status code 201 when successful", () => {
+      const testNewLeague = {
+        league_name: "Warrington Under 7's",
+        location: "Warrington",
+      };
+      return request(app)
+        .post("/api/leagues")
+        .send(testNewLeague)
+        .expect(201)
+        .then(({ body }) => {
+          expect(body.league.league_name).toEqual("Warrington Under 7's");
+          expect(body.league.location).toEqual("Warrington");
+        });
+    });
+  });
+});
+
+describe("app", () => {
+  describe("POST/api/fixtures", () => {
+    test("posts a new league with status code 201 when successful", () => {
+      const testNewFixture = {
+        home_team_id: 1,
+        away_team_id: 5,
+        fixture_date: "2023-06-11",
+        fixture_time: "17:30:00",
+        result: "",
+      };
+      return request(app)
+        .post("/api/fixtures")
+        .send(testNewFixture)
+        .expect(201)
+        .then(({ body }) => {
+          expect(body.fixture.home_team_id).toEqual(1);
+          expect(body.fixture.away_team_id).toEqual(5);
+          expect(body.fixture.fixture_date).toEqual("2023-06-11");
+          expect(body.fixture.fixture_time).toEqual("17:30:00");
+          expect(body.fixture.result).toEqual("");
         });
     });
   });

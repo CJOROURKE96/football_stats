@@ -1,6 +1,6 @@
 module.exports = [
-    {
-        league_name: 'UK Grass Roots',
-        location: 'UK',
-    }
-]
+  {
+    league_name: "UK Grass Roots",
+    location: "UK",
+  },
+];

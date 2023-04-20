@@ -47,8 +47,8 @@ const seed = ({ teamData, playerData, leaguesData, fixturesData }) => {
                     fixture_id SERIAL PRIMARY KEY,
                     home_team_id INT NOT NULL REFERENCES teams(team_id),
                     away_team_id INT NOT NULL REFERENCES teams(team_id),
-                    fixture_date DATE NOT NULL,
-                    fixture_time TIME NOT NULL,
+                    fixture_date VARCHAR(50) NOT NULL,
+                    fixture_time VARCHAR(50) NOT NULL,
                     result VARCHAR(10) DEFAULT NULL
                 );`);
     })

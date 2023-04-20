@@ -7,6 +7,8 @@ const {
   getFixtures,
   postNewTeam,
   postNewPlayer,
+  postNewLeague,
+  postNewFixture,
 } = require("./controller");
 
 const app = express();
@@ -19,8 +21,8 @@ app.get("/api/leagues", getLeagues);
 app.get("/api/fixtures", getFixtures);
 app.post("/api/teams/", postNewTeam);
 app.post("/api/players", postNewPlayer);
-// app.post("/api/leagues", postNewLeague);
-// app.post("/api/fixtures", postNewFixture);
+app.post("/api/leagues", postNewLeague);
+app.post("/api/fixtures", postNewFixture);
 
 app.use((err, request, response, next) => {
   if (err.status) {
