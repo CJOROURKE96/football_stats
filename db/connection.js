@@ -9,10 +9,4 @@ if (!process.env.PGDATABASE) {
   throw new Error('PGDATABASE not set');
 }
 
-module.exports = new Pool({
-    user: 'lee',
-    host: 'localhost',
-    database: 'grass_roots',
-    password: 'password',
-    port: 5432,
-  });
+module.exports = new Pool();
