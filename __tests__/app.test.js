@@ -193,3 +193,126 @@ describe("app", () => {
     });
   });
 });
+
+describe("PATCH/api/teams/:team_id", () => {
+  test("can remove and replace the logo_url", () => {
+    const newLogoUrl = {
+      logo_url:
+        "https://c8.alamy.com/comp/MJWPAH/football-team-emblem-template-with-soccer-ball-design-element-for-logo-labelsign-badge-vector-illustration-MJWPAH.jpg",
+    };
+    return request(app)
+      .patch("/api/teams/1")
+      .send(newLogoUrl)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.logo_url).toBe(
+          "https://c8.alamy.com/comp/MJWPAH/football-team-emblem-template-with-soccer-ball-design-element-for-logo-labelsign-badge-vector-illustration-MJWPAH.jpg"
+        );
+      });
+  });
+});
+
+describe("PATCH/api/players/:player_id", () => {
+  test("can update a players position", () => {
+    const newPosition = {
+      position: "RB",
+    };
+    return request(app)
+      .patch("/api/players/2")
+      .send(newPosition)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.player.position).toBe("RB");
+      });
+  });
+});
+
+describe("PATCH/api/players/:player_id", () => {
+  test("can update a players age", () => {
+    const newAge = {
+      age: 22,
+    };
+    return request(app)
+      .patch("/api/players/2")
+      .send(newAge)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.player.age).toBe(22);
+      });
+  });
+});
+
+describe("PATCH/api/players/:player_id", () => {
+  test("can update a players team", () => {
+    const newTeam = {
+      team_id: 2,
+    };
+    return request(app)
+      .patch("/api/players/2")
+      .send(newTeam)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.player.team_id).toBe(2);
+      });
+  });
+});
+
+describe("PATCH/api/players/:player_id", () => {
+  test("can update a players goals", () => {
+    const newGoals = {
+      goals: 2,
+    };
+    return request(app)
+      .patch("/api/players/2")
+      .send(newGoals)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.player.goals).toBe(2);
+      });
+  });
+});
+
+describe("PATCH/api/players/:player_id", () => {
+  test("can update a players assists", () => {
+    const newAssists = {
+      assists: 5,
+    };
+    return request(app)
+      .patch("/api/players/4")
+      .send(newAssists)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.player.assists).toBe(5);
+      });
+  });
+});
+
+describe("PATCH/api/players/:player_id", () => {
+  test("can update a players clean_sheets", () => {
+    const newCleanSheet = {
+      clean_sheets: 4,
+    };
+    return request(app)
+      .patch("/api/players/1")
+      .send(newCleanSheet)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.player.clean_sheets).toBe(4);
+      });
+  });
+});
+
+describe("PATCH/api/players/:player_id", () => {
+  test("can update a players num_starts", () => {
+    const newNumStarts = {
+      num_starts: 11,
+    };
+    return request(app)
+      .patch("/api/players/5")
+      .send(newNumStarts)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.player.num_starts).toBe(11);
+      });
+  });
+});

@@ -7,6 +7,8 @@ const {
   insertPlayer,
   insertLeague,
   insertFixture,
+  updateLogo,
+  updatePlayer,
 } = require("./model");
 
 exports.getTeams = (request, response, next) => {
@@ -69,6 +71,36 @@ exports.postNewFixture = (request, response, next) => {
   insertFixture(request.body)
     .then((newFixture) => {
       response.status(201).send({ fixture: newFixture });
+    })
+    .catch(next);
+};
+
+exports.patchTeamLogo = (request, response, next) => {
+  const { team_id } = request.params;
+  const { logo_url } = request.body;
+  updateLogo(team_id, logo_url)
+    .then((updatedLogo) => {
+      response.status(200).send({ logo_url: updatedLogo });
+    })
+    .catch(next);
+};
+
+exports.patchPlayer = (request, response, next) => {
+  const { player_id } = request.params;
+  const { position, team_id, age, goals, assists, clean_sheets, num_starts } =
+    request.body;
+  updatePlayer(
+    player_id,
+    position,
+    team_id,
+    age,
+    goals,
+    assists,
+    clean_sheets,
+    num_starts
+  )
+    .then((updatedPlayer) => {
+      response.status(200).send({ player: updatedPlayer });
     })
     .catch(next);
 };

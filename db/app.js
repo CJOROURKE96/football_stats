@@ -9,6 +9,8 @@ const {
   postNewPlayer,
   postNewLeague,
   postNewFixture,
+  patchTeamLogo,
+  patchPlayer,
 } = require("./controller");
 
 const app = express();
@@ -23,6 +25,8 @@ app.post("/api/teams/", postNewTeam);
 app.post("/api/players", postNewPlayer);
 app.post("/api/leagues", postNewLeague);
 app.post("/api/fixtures", postNewFixture);
+app.patch("/api/teams/:team_id", patchTeamLogo);
+app.patch("/api/players/:player_id", patchPlayer);
 
 app.use((err, request, response, next) => {
   if (err.status) {
